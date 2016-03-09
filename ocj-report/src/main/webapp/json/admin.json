@@ -1,0 +1,5 @@
+[
+		{ id:1001, pId:100, name:"用户管理", t:"",page:"page_admin_userindex.action"},
+		{ id:1002, pId:100, name:"功能管理", t:"",page:"page_admin_function.action"}
+
+]

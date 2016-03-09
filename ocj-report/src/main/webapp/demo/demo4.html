@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="height:400px"></div>
+    <!-- ECharts单文件引入 -->
+    <script src="../asset/js/echarts.js"></script>
+      <script src="../asset/js/jquery.min.js"></script>
+    <script type="text/javascript">
+    	//从数据库中获取address的group数据、
+
+    
+        // 路径配置
+        require.config({
+            paths: {
+                echarts: 'http://echarts.baidu.com/build/dist'
+            }
+        });
+        
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+            ],
+            function (ec) {
+				var data1 = []
+				var data2 = []
+				$.ajax({ 
+							url: "../ws/customer/customer/graph/", 
+							type:"GET",
+							dataType: "json",
+							success: function(data){
+								var len = data.length;		
+								for(var i=0;i<len;i++){
+									data1.push(data[i].NUM);
+									data2.push(data[i].ADDRESS);
+								}
+								
+								
+								
+				                // 基于准备好的dom，初始化echarts图表
+				                var myChart = ec.init(document.getElementById('main')); 
+				                var option = {
+				                    tooltip: {
+				                        show: true
+				                    },
+				                    legend: {
+				                        data:['客户人数']
+				                    },
+				                    xAxis : [
+				                        {
+				                            type : 'category',
+				                            data : data2
+				                        }
+				                    ],
+				                    yAxis : [
+				                        {
+				                            type : 'value'
+				                        }
+				                    ],
+				                    series : [
+				                        {
+				                            "name":"人数",
+				                            "type":"bar",
+				                            "data":data1
+				                        }
+				                    ]
+				                };
+				        
+				                // 为echarts对象加载数据 
+				                myChart.setOption(option); 
+								
+							},
+							error:function(){
+								
+								alert("error occured");
+							}
+					}) 
+
+            }
+        );
+    </script>
+</body>

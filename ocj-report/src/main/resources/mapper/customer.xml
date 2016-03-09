@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="customer">
+
+
+	<select id="total" resultType="int">
+			select count(*) num from qmsv2.customer
+	</select>
+
+	<select id="list" resultType="com.infosys.ocj.pojo.Customer">
+<!-- 			select top (#{end}) id,name,gender,address,telephone -->
+<!-- 			from customer -->
+<!-- 			where id not in( -->
+<!-- 			select top (#{begin}) id -->
+<!-- 			from customer) -->
+			<![CDATA[
+			SELECT * FROM 
+			(
+			SELECT A.*, ROWNUM RN 
+			FROM (SELECT * FROM qmsv2.customer) A 
+			WHERE ROWNUM <= #{end}
+			)
+			WHERE RN >= #{begin}
+		]]>
+	</select>
+	
+	<insert id="add" parameterType="com.infosys.ocj.pojo.Customer">
+		insert into qmsv2.customer (id,name,gender,address,telephone) values(#{id},#{name} ,
+		#{gender},#{address},#{telephone})
+         
+	</insert>
+	
+	<select id="graph" resultType="map">
+			select to_char(count(*))  num , address from qmsv2.customer group by address
+	</select>
+	
+	<select id="search" parameterType="com.infosys.ocj.pojo.Customer"  resultType="com.infosys.ocj.pojo.Customer">
+			select * 
+			from qmsv2.customer
+			where 1=1
+			<if test="address != null">
+				and address LIKE '${address}%'
+			</if>
+			<if test="gender != null">
+				and gender LIKE '${gender}%'
+			</if>
+	</select>
+
+</mapper>

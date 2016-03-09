@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "http://jakarta.apache.org/log4j/" "log4j.dtd">
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<appender name="report_rollingfile_appender" class="org.apache.log4j.RollingFileAppender">
+		<param name="Append" value="true" />
+		<param name="File" value="${catalina.base}/logs/report.log" />
+		<param name="DatePattern" value="yyyy-MM-dd'.log'" />
+		<param name="MaxFileSize" value="10MB" />
+		<param name="MaxBackupIndex" value="5" />
+		<param name="encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+		<param name="ConversionPattern"
+		value="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %C.%M(%F:%L) - %m%n" />
+		</layout>
+
+	</appender>
+
+
+	<appender name="report_dailyrollingfile_appender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="Append" value="true" />
+		<param name="File" value="${catalina.base}/logs/errors.log" />
+		<param name="DatePattern" value="yyyy-MM-dd'.log'" />
+		<param name="encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5p %C.%M(%F:%L) - %m%n" />
+		</layout>
+	</appender>
+
+
+
+
+	<appender name="console-appender" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%m %-d{yyyy-MM-dd HH:mm:ss,SSS} [%c]-[%p] %n" />
+		</layout>
+	</appender>
+
+	<logger name="cn.yum.bigdata" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="report_rollingfile_appender" />
+		<appender-ref ref="console-appender" />
+	</logger>
+
+	<root>
+		<priority value="ERROR" />
+		<appender-ref ref="report_dailyrollingfile_appender" />
+		<appender-ref ref="console-appender" />
+	</root>
+</log4j:configuration>  

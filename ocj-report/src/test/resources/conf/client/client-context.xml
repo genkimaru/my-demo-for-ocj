@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+	xmlns:jaxrs-client="http://cxf.apache.org/jaxrs-client" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="
+http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd 
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd 
+http://cxf.apache.org/jaxrs-client http://cxf.apache.org/schemas/jaxrs-client.xsd 
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.0.xsd  
+http://www.springframework.org/schema/tx  http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+http://www.springframework.org/schema/aop  http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	<jaxrs-client:client id="reportDefinitionClient"
+		address="http://localhost:28080/report/ws/reportdef" serviceClass="cn.yum.bigdata.report.ws.IReportDefinitionService"
+		inheritHeaders="true">
+		<jaxrs-client:headers>
+			<entry key="Accept" value="application/json" />
+		</jaxrs-client:headers>
+		<jaxrs-client:providers>
+			<bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
+		</jaxrs-client:providers>
+	</jaxrs-client:client>
+</beans>
+
